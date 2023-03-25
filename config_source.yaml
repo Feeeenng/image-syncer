@@ -4,4 +4,4 @@ auth:
     password: $PASSWORD
 # test
 images:
-   $ISSUSE_BODY: registry.cn-shenzhen.aliyuncs.com/os_mirror/$ISSUSE_BODY
+   $ORIGIN_ISSUSE_BODY: registry.cn-shenzhen.aliyuncs.com/os_mirror/$ISSUSE_BODY

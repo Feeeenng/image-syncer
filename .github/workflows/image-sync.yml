@@ -34,7 +34,9 @@ jobs:
       run: envsubst < config_source.yaml > config.yaml
     
     - name: format registry name
-      run: export ISSUSE_BODY=$(echo ${{ github.event.issue.body }} | sed 's/\//./g')
+      run: |
+        new_body=$(echo ${{github.event.issue.body}} | sed 's/\//./g')
+        echo "ISSUSE_BODY=$new_body" >> $GITHUB_ENV
 
     - name: cat file
       run: cat config.yaml

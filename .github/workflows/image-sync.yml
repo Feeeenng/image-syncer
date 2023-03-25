@@ -17,7 +17,8 @@ env:
 jobs:
   image-sync:
     runs-on: ubuntu-latest
-
+    
+    if: contains(github.event.issue.labels.*.name, 'image-syncer')
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -29,6 +30,17 @@ jobs:
         
     - name: add sercret to file
       run: envsubst < config_source.yaml > config.yaml
+    
+    - name: add image file
+      run: sed -i "s|"replace_image"|\"$(echo ${{ github.event.issue.body }} | sed 's/[\/&]/\\&/g')\"|g" image_file.yaml
 
     - name: sync images
-      run: ./image-syncer --proc=10 --config=config.yaml --retries=2
+     # run: ./image-syncer --proc=10 --config=config.yaml --retries=2 >> output.sh
+      run: ./image-syncer --proc=10 --auth=config.yaml  --image=image_file.yaml
+    
+ #   - name: Add comment
+ #       if: ${{ hashFiles('output.sh') }}
+ #       uses: actions/github-script@v5
+ #       with:
+ #        sciprt: ./image-syncer --proc=10 --auth=config.yaml  --image=image.file.yaml
+            

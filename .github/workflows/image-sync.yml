@@ -35,11 +35,8 @@ jobs:
       run: envsubst < config_source.yaml > config.yaml
     
 
-    - name: add image file
-      run: envsubst < image_file.yaml > image_file.yaml
-
     - name: cat file
-      run: cat image_file.yaml
+      run: cat config.yaml
     
     - name: sync images
       run: ./image-syncer --proc=10 --config=config.yaml --retries=2 >> output.sh

@@ -71,7 +71,7 @@ jobs:
       if: ${{ failure() }}
       uses: actions/github-script@v5
       with:
-        sciprt: |
+        script: |
            const body = "[构建失败，点击查看](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
            github.rest.issues.addLabels({
                 issue_number: context.issue.number,

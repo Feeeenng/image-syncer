@@ -15,7 +15,6 @@ env:
   IMAGE_SYNCER_VERSION: v1.3.1
   USERNAME: ${{ secrets.ALIYUN_USERNAME }}
   PASSWORD: ${{ secrets.ALIYUN_PASSWORD }}
-  ISSUSE_BODY: $(echo ${{ github.event.issue.body }} | sed 's/\//./g')
 
 jobs:
   image-sync:
@@ -34,6 +33,8 @@ jobs:
     - name: add sercret to file
       run: envsubst < config_source.yaml > config.yaml
     
+    - name: format registry name
+      run: export ISSUSE_BODY=$(echo ${{ github.event.issue.body }} | sed 's/\//./g')
 
     - name: cat file
       run: cat config.yaml

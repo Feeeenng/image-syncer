@@ -33,12 +33,13 @@ jobs:
     - name: add sercret to file
       run: envsubst < config_source.yaml > config.yaml
     
-    - name: cat file
-      run: cat image_file.yaml
-    
+
     - name: add image file
       run: sed -i "s|"replace_image"|\"$(echo ${{ github.event.issue.body }} | sed 's/[\/&]/\\&/g')\"|g" image_file.yaml
 
+    - name: cat file
+      run: cat image_file.yaml
+    
     - name: sync images
      # run: ./image-syncer --proc=10 --config=config.yaml --retries=2 >> output.sh
       run: ./image-syncer --proc=10 --auth=config.yaml  --images=image_file.yaml

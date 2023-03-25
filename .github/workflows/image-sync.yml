@@ -32,7 +32,7 @@ jobs:
         
     - name: format registry name
       run: |
-        new_body=$(echo ${{github.event.issue.body}} | sed 's/\//./g')
+        new_body=$(echo ${{github.event.issue.body}} | sed 's/\//./g;s/^\s*//;s/\s*$//')
         echo "ISSUSE_BODY=$new_body" >> $GITHUB_ENV
         
     - name: add sercret to file

@@ -55,7 +55,7 @@ jobs:
                "```shell\n" +
                "docker pull registry.cn-shenzhen.aliyuncs.com/os_mirror/$ISSUSE_BODY \n" +
                "```\n" +
-               "\n" "
+               "\n"
                
             github.rest.issues.createComment({
                 issue_number: context.issue.number,

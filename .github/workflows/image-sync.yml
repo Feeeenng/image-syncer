@@ -43,7 +43,7 @@ jobs:
     
     - name: sync images
       id: sync_images
-      run: ./image-syncer --proc=10 --config=config.yaml --retries=2 >> out 
+      run: ./image-syncer --proc=10 --config=config.yaml --retries=2
     
     - name: Success comment
       if: steps.sync_image.outcome == 'success'

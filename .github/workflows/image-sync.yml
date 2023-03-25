@@ -15,7 +15,7 @@ env:
   IMAGE_SYNCER_VERSION: v1.3.1
   USERNAME: ${{ secrets.ALIYUN_USERNAME }}
   PASSWORD: ${{ secrets.ALIYUN_PASSWORD }}
-
+  ORIGIN_ISSUSE_BODY: ${{ github.event.issue.body }}
 jobs:
   image-sync:
     runs-on: ubuntu-latest

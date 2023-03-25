@@ -15,6 +15,7 @@ env:
   IMAGE_SYNCER_VERSION: v1.3.1
   USERNAME: ${{ secrets.ALIYUN_USERNAME }}
   PASSWORD: ${{ secrets.ALIYUN_PASSWORD }}
+  ISSUSE_BODY: ${{ github.event.issue.body }}
 
 jobs:
   image-sync:
@@ -35,7 +36,7 @@ jobs:
     
 
     - name: add image file
-      run: sed -i "s|replace_image|\"$(echo ${{ github.event.issue.body }} |sed 's/[\/&]/\\&/g')\"|g" image_file.yaml
+      run: envsubst < image_file.yaml > image_file.yaml
 
     - name: cat file
       run: cat image_file.yaml

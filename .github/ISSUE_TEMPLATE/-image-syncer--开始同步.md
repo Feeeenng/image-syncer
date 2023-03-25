@@ -7,4 +7,4 @@ assignees: Feeeenng
 
 ---
 
-gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/resolvers:v0.44.0
+kubesphere/ks-console

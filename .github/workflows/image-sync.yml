@@ -53,7 +53,7 @@ jobs:
            const body = "同步成功, 执行该命令拉取镜像: \n" +
                "\n" +
                "```shell\n" +
-               "docker pull registry.cn-shenzhen.aliyuncs.com/os_mirror/$ISSUSE_BODY \n" +
+               "docker pull registry.cn-shenzhen.aliyuncs.com/os_mirror/${ISSUSE_BODY} \n" +
                "```\n" +
                "\n"
                

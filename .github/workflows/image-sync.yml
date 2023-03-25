@@ -39,7 +39,7 @@ jobs:
       run: cat config.yaml
     
     - name: sync images
-      run: ./image-syncer --proc=10 --config=config.yaml --retries=2 >> output.sh
+      run: ./image-syncer --proc=10 --config=config.yaml --retries=2 
      # run: ./image-syncer --proc=10 --auth=config.yaml  --images=image_file.yaml
     
  #   - name: Add comment

@@ -8,7 +8,9 @@ on:
     branches: [ main ]
   schedule:
     - cron: '0 14 * * 1'
-
+  issues:
+    types:
+      - opened
 env:
   IMAGE_SYNCER_VERSION: v1.3.1
   USERNAME: ${{ secrets.ALIYUN_USERNAME }}

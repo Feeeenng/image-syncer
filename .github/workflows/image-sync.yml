@@ -50,8 +50,13 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-            const body =  `同步成功，执行该命令拉取镜像：\n\n\`\`\`shell\ndocker pull registry.cn-shenzhen.aliyuncs.com/os_mirror/${{ env.ISSUSE_BODY }}\n\`\`\`\n` +
-                          [构建地址，点击查看](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            const body = `同步成功，执行该命令拉取镜像：
+
+              \`\`\`shell
+              docker pull registry.cn-shenzhen.aliyuncs.com/os_mirror/\${{ env.ISSUSE_BODY }}
+              \`\`\`
+
+              构建地址，点击查看: [https://github.com/\${{ github.repository }}/actions/runs/\${{ github.run_id }}](https://github.com/\${{ github.repository }}/actions/runs/\${{ github.run_id }})`
                
             github.rest.issues.createComment({
                 issue_number: context.issue.number,

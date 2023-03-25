@@ -30,13 +30,13 @@ jobs:
         wget https://github.com/AliyunContainerService/image-syncer/releases/download/${IMAGE_SYNCER_VERSION}/image-syncer-${IMAGE_SYNCER_VERSION}-linux-amd64.tar.gz
         tar -zxf image-syncer-${IMAGE_SYNCER_VERSION}-linux-amd64.tar.gz
         
-    - name: add sercret to file
-      run: envsubst < config_source.yaml > config.yaml
-    
     - name: format registry name
       run: |
         new_body=$(echo ${{github.event.issue.body}} | sed 's/\//./g')
         echo "ISSUSE_BODY=$new_body" >> $GITHUB_ENV
+        
+    - name: add sercret to file
+      run: envsubst < config_source.yaml > config.yaml
 
     - name: cat file
       run: cat config.yaml

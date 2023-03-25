@@ -46,7 +46,7 @@ jobs:
       run: ./image-syncer --proc=10 --config=config.yaml --retries=2
     
     - name: Success comment
-      if: steps.sync_image.outcome == 'success'
+      if: ${{ success() }}
       uses: actions/github-script@v5
       with:
         script: |
@@ -72,7 +72,7 @@ jobs:
               })
     
     - name: Failure issues
-      if: steps.sync_image.outcome == 'failure'
+      if: ${{ failure() }}
       uses: actions/github-script@v5
       with:
         sciprt: |

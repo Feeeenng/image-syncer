@@ -3,5 +3,5 @@ auth:
     username: $USERNAME
     password: $PASSWORD
 # test
-images:
-   k8s.gcr.io/metrics-server/metrics-server: registry.cn-shenzhen.aliyuncs.com/os_mirror/metrics-server
+#images:
+#   k8s.gcr.io/metrics-server/metrics-server: registry.cn-shenzhen.aliyuncs.com/os_mirror/metrics-server

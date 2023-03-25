@@ -35,7 +35,7 @@ jobs:
     
 
     - name: add image file
-      run: sed -i "s|"replace_image"|\"$(echo ${{ github.event.issue.body }} | sed 's/"//g'| sed 's/[\/&]/\\&/g')\"|g" image_file.yaml
+      run: sed -i "s|replace_image|\"$(echo ${{ github.event.issue.body }} |sed 's/[\/&]/\\&/g')\"|g" image_file.yaml
 
     - name: cat file
       run: cat image_file.yaml

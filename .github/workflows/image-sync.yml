@@ -50,7 +50,7 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-            const body =  `同步成功，执行该命令拉取镜像：\n\n\`\`\`shell\ndocker pull registry.cn-shenzhen.aliyuncs.com/os_mirror/`${{ env.ISSUSE_BODY }}`\n\`\`\`\n`
+            const body =  `同步成功，执行该命令拉取镜像：\n\n\`\`\`shell\ndocker pull registry.cn-shenzhen.aliyuncs.com/os_mirror/${{ env.ISSUSE_BODY }}\n\`\`\`\n`
                
             github.rest.issues.createComment({
                 issue_number: context.issue.number,
@@ -71,6 +71,7 @@ jobs:
       uses: actions/github-script@v5
       with:
         sciprt: |
+          const body = "[构建失败，点击查看](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
           github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -81,5 +82,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: "[构建失败，点击查看](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+              body: body
             })

@@ -4,4 +4,4 @@ auth:
     password: $PASSWORD
 # test
 images:
-   k8s.gcr.io/metrics-server/metrics-server: registry.cn-shenzhen.aliyuncs.com/os_mirrors/metrics-server
+   k8s.gcr.io/metrics-server/metrics-server: registry.cn-shenzhen.aliyuncs.com/os_mirror/metrics-server

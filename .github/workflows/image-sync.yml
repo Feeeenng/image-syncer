@@ -42,8 +42,8 @@ jobs:
       run: cat image_file.yaml
     
     - name: sync images
-     # run: ./image-syncer --proc=10 --config=config.yaml --retries=2 >> output.sh
-      run: ./image-syncer --proc=10 --auth=config.yaml  --images=image_file.yaml
+      run: ./image-syncer --proc=10 --config=config.yaml --retries=2 >> output.sh
+     # run: ./image-syncer --proc=10 --auth=config.yaml  --images=image_file.yaml
     
  #   - name: Add comment
  #       if: ${{ hashFiles('output.sh') }}

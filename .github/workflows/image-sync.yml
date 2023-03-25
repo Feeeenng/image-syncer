@@ -42,12 +42,49 @@ jobs:
       run: cat config.yaml
     
     - name: sync images
-      run: ./image-syncer --proc=10 --config=config.yaml --retries=2 
-     # run: ./image-syncer --proc=10 --auth=config.yaml  --images=image_file.yaml
+      id: sync_images
+      run: ./image-syncer --proc=10 --config=config.yaml --retries=2 >> out 
     
- #   - name: Add comment
- #       if: ${{ hashFiles('output.sh') }}
- #       uses: actions/github-script@v5
- #       with:
- #        sciprt: ./image-syncer --proc=10 --auth=config.yaml  --image=image.file.yaml
-            
+    - name: Success comment
+      if: steps.sync_image.outcome == 'success'
+      uses: actions/github-script@v5
+      with:
+        script: |
+           const body = "同步成功, 执行该命令拉取镜像: \n" +
+               "\n" +
+               "```shell\n" +
+               "docker pull registry.cn-shenzhen.aliyuncs.com/os_mirror/$ISSUSE_BODY \n" +
+               "```\n" +
+               "\n" "
+               
+            github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body
+              })
+           
+            github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['success']
+              })
+    
+    - name: Failure issues
+      if: steps.sync_image.outcome == 'failure'
+      uses: actions/github-script@v5
+      with:
+        sciprt: |
+          github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['failure']
+            })
+          github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "[构建失败，点击查看](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+            })

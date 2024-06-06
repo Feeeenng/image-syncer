@@ -12,7 +12,7 @@ on:
     types:
       - opened
 env:
-  IMAGE_SYNCER_VERSION: v1.3.1
+  IMAGE_SYNCER_VERSION: v1.5.4
   USERNAME: ${{ secrets.ALIYUN_USERNAME }}
   PASSWORD: ${{ secrets.ALIYUN_PASSWORD }}
   ORIGIN_ISSUSE_BODY: ${{ github.event.issue.body }}

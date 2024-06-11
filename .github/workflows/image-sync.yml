@@ -26,20 +26,41 @@ jobs:
         wget https://github.com/AliyunContainerService/image-syncer/releases/download/${IMAGE_SYNCER_VERSION}/image-syncer-${IMAGE_SYNCER_VERSION}-linux-amd64.tar.gz
         tar -zxf image-syncer-${IMAGE_SYNCER_VERSION}-linux-amd64.tar.gz
         
-    - name: format registry name
+    # - name: format registry name
+    #   run: |
+    #     new_body=$(echo ${{github.event.issue.body}} | sed 's/\//./g;s/^\s*//;s/\s*$//')
+    #     echo "ISSUSE_BODY=$new_body" >> $GITHUB_ENV
+    
+    - name: 解析 JSON 
+      id: parse_json
       run: |
-        new_body=$(echo ${{github.event.issue.body}} | sed 's/\//./g;s/^\s*//;s/\s*$//')
-        echo "ISSUSE_BODY=$new_body" >> $GITHUB_ENV
-        
+        echo ${{ github.event.issue.body }} | jq '.' > issue_body.json
+        platform=$(jq -r '.platform' issue_body.json)
+        registries=$(jq -c '.registries[0]' issue_body.json)
+        echo "PLATFORM=$platform" >> $GITHUB_ENV
+        echo "REGISTRIES=$registries" >> $GITHUB_ENV
+
+    - name: 生成镜像同步列表
+      run: |
+        echo $REGISTRIES | jq -c 'to_entries[]' | while read item; do
+          source=$(echo $item | jq -r '.key')
+          tag=$(echo $item | jq -r '.value')
+          formatted_registry=$(echo $source | sed 's/\//./g;s/^\s*//;s/\s*$//')
+          echo "$source:$tag: registry.cn-shenzhen.aliyuncs.com/os_mirror/$formatted_registry:$tag" >> images_list.txt
+        done
+
+ 
     - name: add sercret to file
-      run: envsubst < config_source.yaml > config.yaml
+      run: |
+        export IMAGES=$(cat images_list.txt | while read line; do echo "  $line"; done)
+        envsubst < config_source.yaml > config.yaml
 
     - name: cat file
       run: cat config.yaml
     
     - name: sync images
       id: sync_images
-      run: ./image-syncer --proc=10 --config=config.yaml --retries=2  --arch=arm64
+      run: ./image-syncer --proc=10 --config=config.yaml --retries=2  -arch=$PLATFORM
     
     - name: Success comment
       if: ${{ success() }}

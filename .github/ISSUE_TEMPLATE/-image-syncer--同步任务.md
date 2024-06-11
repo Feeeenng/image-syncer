@@ -7,4 +7,10 @@ assignees: Feeeenng
 
 ---
 
-完整镜像名称
+{
+  "platform":"镜像架构",
+  "registries":[{
+      "镜像名":"镜像tag",
+      ...
+  }]
+}

@@ -8,9 +8,9 @@ assignees: Feeeenng
 ---
 
 {
-  "todo":"os/arch is amd64 arm64. more arch please to hub  tags"
-  "platform":"镜像架构",
+  "todo":"os/arch is amd64 arm64. more arch please to hub  tags.",
+  "platform":"arch",
   "registries":[{
-      "镜像名":"镜像tag"
+      "repository":"tag"
   }]
 }

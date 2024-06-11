@@ -57,10 +57,17 @@ jobs:
         done
 
  
-    - name: add sercret to file
+    - name: 生成 config.yaml 文件
       run: |
-        export IMAGES=$(cat images_list.txt | while read line; do echo "  $line"; done)
-        envsubst < config_source.yaml > config.yaml
+        echo "auth:" > config.yaml
+        echo "  registry.cn-shenzhen.aliyuncs.com:" >> config.yaml
+        echo "    username: ${{ secrets.ALIYUN_USERNAME }}" >> config.yaml
+        echo "    password: ${{ secrets.ALIYUN_PASSWORD }}" >> config.yaml
+        echo "# test" >> config.yaml
+        echo "images:" >> config.yaml
+        while IFS= read -r line; do
+          echo "  $line" >> config.yaml
+        done < images_list.txt
 
     - name: cat file
       run: cat config.yaml

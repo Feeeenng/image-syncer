@@ -80,21 +80,26 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-            const body =  `同步成功，拉取命令如下\n\n\`\`\`shell\ndocker pull registry.cn-shenzhen.aliyuncs.com/os_mirror/${{ env.ISSUSE_BODY }}\n\`\`\`\n`
-            github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: body
-              })
-           
-            github.rest.issues.addLabels({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                labels: ['success']
-              })
-    
+          const registries = JSON.parse(process.env.REGISTRIES);
+          let body = '同步成功，拉取命令如下\n\n';
+          for (const repo in registries) {
+            const tag = registries[repo];
+            const formattedRepo = repo.replace(/\//g, '.');
+            body += `\`\`\`shell\ndocker pull registry.cn-shenzhen.aliyuncs.com/os_mirror/${formattedRepo}:${tag}\n\`\`\`\n`;
+          }
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: body
+          });
+          github.rest.issues.addLabels({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            labels: ['success']
+          })
+          
     - name: Failure issues
       if: ${{ failure() }}
       uses: actions/github-script@v5

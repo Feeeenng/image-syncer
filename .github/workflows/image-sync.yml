@@ -31,14 +31,21 @@ jobs:
     #     new_body=$(echo ${{github.event.issue.body}} | sed 's/\//./g;s/^\s*//;s/\s*$//')
     #     echo "ISSUSE_BODY=$new_body" >> $GITHUB_ENV
     
-    - name: 解析 JSON 
-      id: parse_json
+    # 解析 JSON 输入
+    - name: 提取平台信息
+      id: extract_platform
       run: |
-        echo ${{ github.event.issue.body }} | jq '.' > issue_body.json
-        platform=$(jq -r '.platform' issue_body.json)
-        registries=$(jq -c '.registries[0]' issue_body.json)
+        echo '${{ github.event.issue.body }}' | jq -r '.platform' > platform.txt
+        platform=$(cat platform.txt)
         echo "PLATFORM=$platform" >> $GITHUB_ENV
+
+    - name: 提取注册表信息
+      id: extract_registries
+      run: |
+        echo '${{ github.event.issue.body }}' | jq -c '.registries[0]' > registries.txt
+        registries=$(cat registries.txt)
         echo "REGISTRIES=$registries" >> $GITHUB_ENV
+
 
     - name: 生成镜像同步列表
       run: |

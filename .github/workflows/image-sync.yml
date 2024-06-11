@@ -35,14 +35,14 @@ jobs:
     - name: 提取平台信息
       id: extract_platform
       run: |
-        echo '${{ github.event.issue.body }}' | jq -r '.platform' > platform.txt
+        echo "${{ github.event.issue.body }}" | jq -r '.platform' > platform.txt
         platform=$(cat platform.txt)
         echo "PLATFORM=$platform" >> $GITHUB_ENV
 
     - name: 提取注册表信息
       id: extract_registries
       run: |
-        echo '${{ github.event.issue.body }}' | jq -c '.registries[0]' > registries.txt
+        echo "${{ github.event.issue.body }}" | jq -c '.registries[0]' > registries.txt
         registries=$(cat registries.txt)
         echo "REGISTRIES=$registries" >> $GITHUB_ENV
 

@@ -49,7 +49,7 @@ jobs:
 
     - name: 生成镜像同步列表
       run: |
-        echo "${{ env.REGISTRIES }}" | jq -c 'to_entries[]' | while read item; do
+        echo '${{ env.REGISTRIES }}' | jq -c 'to_entries[]' | while read item; do
           source=$(echo $item | jq -r '.key')
           tag=$(echo $item | jq -r '.value')
           formatted_registry=$(echo $source | sed 's/\//./g;s/^\s*//;s/\s*$//')

@@ -67,7 +67,7 @@ jobs:
     
     - name: sync images
       id: sync_images
-      run: ./image-syncer --proc=10 --config=config.yaml --retries=2  -arch=${{ env.PLATFORM }}
+      run: ./image-syncer --proc=10 --config=config.yaml --retries=2  --arch=${{ env.PLATFORM }}
     
     - name: Success comment
       if: ${{ success() }}

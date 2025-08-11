@@ -3,118 +3,28 @@
 name: image-sync
 on:
   push:
-    branches: [ main ]
-  issues:
-    types:
-      - opened
+    branches: [ cube-studio ]
+
 env:
   IMAGE_SYNCER_VERSION: v1.5.4
-  USERNAME: ${{ secrets.ALIYUN_USERNAME }}
-  PASSWORD: ${{ secrets.ALIYUN_PASSWORD }}
-  ORIGIN_ISSUSE_BODY: ${{ github.event.issue.body }}
+
 jobs:
   image-sync:
     runs-on: ubuntu-latest
     
-    if: contains(github.event.issue.labels.*.name, 'image-syncer')
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-
+      with:
+        fetch-depth: 0
     - name: install image-sync tool
       run: |
         wget https://github.com/AliyunContainerService/image-syncer/releases/download/${IMAGE_SYNCER_VERSION}/image-syncer-${IMAGE_SYNCER_VERSION}-linux-amd64.tar.gz
         tar -zxf image-syncer-${IMAGE_SYNCER_VERSION}-linux-amd64.tar.gz
         
-    # - name: format registry name
-    #   run: |
-    #     new_body=$(echo ${{github.event.issue.body}} | sed 's/\//./g;s/^\s*//;s/\s*$//')
-    #     echo "ISSUSE_BODY=$new_body" >> $GITHUB_ENV
-    
-    - name: parse json
-      id: extract_platform
-      run: |
-        echo '${{ github.event.issue.body }}' | jq -r '.platform' > platform.txt
-        platform=$(cat platform.txt)
-        echo "PLATFORM=$platform" >> $GITHUB_ENV
-
-    - name: env registries
-      id: extract_registries
-      run: |
-        echo '${{ github.event.issue.body }}' | jq -c '.registries[0]' > registries.txt
-        registries=$(cat registries.txt)
-        echo "REGISTRIES=$registries" >> $GITHUB_ENV
-
-
-    - name: touch images_list file
-      run: |
-        echo '${{ env.REGISTRIES }}' | jq -c 'to_entries[]' | while read item; do
-          source=$(echo $item | jq -r '.key')
-          tag=$(echo $item | jq -r '.value')
-          formatted_registry=$(echo $source | sed 's/\//./g;s/^\s*//;s/\s*$//')
-          echo "$source:$tag: registry.cn-shenzhen.aliyuncs.com/os_mirror/$formatted_registry:$tag" >> images_list.txt
-        done
-
- 
-    - name: 生成 config.yaml 文件
-      run: |
-        echo "auth:" > config.yaml
-        echo "  registry.cn-shenzhen.aliyuncs.com:" >> config.yaml
-        echo "    username: ${{ secrets.ALIYUN_USERNAME }}" >> config.yaml
-        echo "    password: ${{ secrets.ALIYUN_PASSWORD }}" >> config.yaml
-        echo "# test" >> config.yaml
-        echo "images:" >> config.yaml
-        while IFS= read -r line; do
-          echo "  $line" >> config.yaml
-        done < images_list.txt
-
-    - name: cat file
-      run: cat config.yaml
-    
-    - name: sync images
-      id: sync_images
-      run: ./image-syncer --proc=10 --config=config.yaml --retries=2  --arch=${{ env.PLATFORM }}
-    
-    - name: Success comment
-      if: ${{ success() }}
-      uses: actions/github-script@v5
-      with:
-        script: |
-          const registries = JSON.parse(process.env.REGISTRIES);
-          let body = '同步成功，拉取命令如下\n\n';
-          for (const repo in registries) {
-            const tag = registries[repo];
-            const formattedRepo = repo.replace(/\//g, '.');
-            body += `\`\`\`shell\ndocker pull registry.cn-shenzhen.aliyuncs.com/os_mirror/${formattedRepo}:${tag}\n\`\`\`\n`;
-          }
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: body
-          });
-          github.rest.issues.addLabels({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            labels: ['success']
-          })
-          
-    - name: Failure issues
-      if: ${{ failure() }}
-      uses: actions/github-script@v5
-      with:
-        script: |
-           const body = "[同步失败，点击查看](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
-           github.rest.issues.addLabels({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                labels: ['failure']
-              })
-           github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: body
-              })
+        
+    - name: Synchronization
+      env:
+        AUTH: ${{ secrets.AUTH }}
+      if: github.event_name == 'push'
+      run: echo "$AUTH" > ./auth.json && .github/workflows/sync.sh

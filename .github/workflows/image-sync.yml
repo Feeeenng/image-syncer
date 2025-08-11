@@ -27,4 +27,4 @@ jobs:
       env:
         AUTH: ${{ secrets.AUTH }}
       if: github.event_name == 'push'
-      run: echo "$AUTH" > ./auth.json && .github/workflows/sync.sh
+      run: echo "$AUTH" > ./auth.yaml && .github/workflows/sync.sh

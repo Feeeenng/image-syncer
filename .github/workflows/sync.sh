@@ -6,5 +6,5 @@ FILES=$(find online -type f)
 for FILE in $FILES
 do
      echo "========> Syncing: $FILES <========"
-    ./image-syncer --auth=./auth.yaml --proc=10 --retries=5 --timeout=300 --skip-check --images=${FILE}
+    ./image-syncer --auth=./auth.yaml --proc=3 --retries=5 --images=${FILE}
 done

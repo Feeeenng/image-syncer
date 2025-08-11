@@ -49,12 +49,10 @@ dockerhub
 
 ![githubaction03.png](https://i.loli.net/2021/08/21/K2PzDTV3qu61WIO.png)
 
-aliyun
+aliyu
 
 ![githubaction04.png](https://i.loli.net/2021/08/21/drQzkbeCNDXqcH4.png)
 
-## 项目参考
 
-[hub-mirror](https://github.com/togettoyou/hub-mirror)
 
 

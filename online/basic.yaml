@@ -3,7 +3,7 @@ bitnami/kube-rbac-proxy:0.14.1: registry.cn-shenzhen.aliyuncs.com/os_mirror/bitn
 alpine:3.10: registry.cn-shenzhen.aliyuncs.com/os_mirror/alpine:3.10
 carlosedp/addon-resizer:v1.8.4: registry.cn-shenzhen.aliyuncs.com/os_mirror/carlosedp.addon-resizer:v1.8.4
 ubuntu:20.04: registry.cn-shenzhen.aliyuncs.com/os_mirror/ubuntu:20.04
-registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.25.16: registry.cn-shenzhen.aliyuncs.com/os_mirror/registry.cn-hangzhou.aliyuncs.com.google_containers/kube-scheduler:v1.25.16
+registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.25.16: registry.cn-shenzhen.aliyuncs.com/os_mirror/registry.cn-hangzhou.aliyuncs.com.google_containers.kube-scheduler:v1.25.16
 kubernetesui/dashboard:v2.6.1: registry.cn-shenzhen.aliyuncs.com/os_mirror/kubernetesui.dashboard:v2.6.1
 projecthami/hami:v2.3.13: registry.cn-shenzhen.aliyuncs.com/os_mirror/projecthami.hami:v2.3.13
 volcanosh/vc-webhook-manager:v1.7.0: registry.cn-shenzhen.aliyuncs.com/os_mirror/volcanosh.vc-webhook-manager:v1.7.0
@@ -12,7 +12,7 @@ argoproj/argoexec:v3.4.3: registry.cn-shenzhen.aliyuncs.com/os_mirror/argoproj.a
 volcanosh/vc-controller-manager:v1.7.0: registry.cn-shenzhen.aliyuncs.com/os_mirror/volcanosh.vc-controller-manager:v1.7.0
 prom/node-exporter:v1.5.0: registry.cn-shenzhen.aliyuncs.com/os_mirror/prom.node-exporter:v1.5.0
 prom/prometheus:v2.27.1: registry.cn-shenzhen.aliyuncs.com/os_mirror/prom.prometheus:v2.27.1
-docker.io/jettech/kube-webhook-certgen:v1.5.2: registry.cn-shenzhen.aliyuncs.com/os_mirror/docker.io.jettech/kube-webhook-certgen:v1.5.2
+docker.io/jettech/kube-webhook-certgen:v1.5.2: registry.cn-shenzhen.aliyuncs.com/os_mirror/docker.io.jettech.kube-webhook-certgen:v1.5.2
 kubernetesui/metrics-scraper:v1.0.8: registry.cn-shenzhen.aliyuncs.com/os_mirror/kubernetesui.metrics-scraper:v1.0.8
 postgres:11.5: registry.cn-shenzhen.aliyuncs.com/os_mirror/postgres:11.5
 istio/proxyv2:1.15.0: registry.cn-shenzhen.aliyuncs.com/os_mirror/istio.proxyv2:1.15.0
@@ -27,9 +27,9 @@ python:3.9: registry.cn-shenzhen.aliyuncs.com/os_mirror/python:3.9
 volcanosh/vc-scheduler:v1.7.0: registry.cn-shenzhen.aliyuncs.com/os_mirror/volcanosh.vc-scheduler:v1.7.0
 minio/minio:RELEASE.2023-04-20T17-56-55Z: registry.cn-shenzhen.aliyuncs.com/os_mirror/minio.minio:RELEASE.2023-04-20T17-56-55Z
 mpioperator/kubectl-delivery:latest: registry.cn-shenzhen.aliyuncs.com/os_mirror/mpioperator.kubectl-delivery:latest
-quay.io/prometheus-operator/prometheus-operator:v0.46.0: registry.cn-shenzhen.aliyuncs.com/os_mirror/quay.io.prometheus-operator/prometheus-operator:v0.46.0
+quay.io/prometheus-operator/prometheus-operator:v0.46.0: registry.cn-shenzhen.aliyuncs.com/os_mirror/quay.io.prometheus-operator.prometheus-operator:v0.46.0
 argoproj/workflow-controller:v3.4.3: registry.cn-shenzhen.aliyuncs.com/os_mirror/argoproj.workflow-controller:v3.4.3
 nvidia/dcgm-exporter:3.1.7-3.1.4-ubuntu20.04: registry.cn-shenzhen.aliyuncs.com/os_mirror/nvidia.dcgm-exporter:3.1.7-3.1.4-ubuntu20.04
-quay.io/prometheus-operator/prometheus-config-reloader:v0.46.0: registry.cn-shenzhen.aliyuncs.com/os_mirror/quay.io.prometheus-operator/prometheus-config-reloader:v0.46.0
+quay.io/prometheus-operator/prometheus-config-reloader:v0.46.0: registry.cn-shenzhen.aliyuncs.com/os_mirror/quay.io.prometheus-operator.prometheus-config-reloader:v0.46.0
 phpmyadmin:5.2.1: registry.cn-shenzhen.aliyuncs.com/os_mirror/phpmyadmin:5.2.1
 mysql:8.0.32: registry.cn-shenzhen.aliyuncs.com/os_mirror/mysql:8.0.32

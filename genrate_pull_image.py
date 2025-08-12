@@ -2,6 +2,15 @@ import yaml
 import sys
 from pathlib import Path
 
+def convert_image_for_online(image: str) -> str:
+    """将镜像名中的 / 转为 .，但保留 :tag"""
+    if ":" in image:
+        repo, tag = image.rsplit(":", 1)
+        repo = repo.replace("/", ".")
+        return f"{repo}:{tag}"
+    else:
+        return image.replace("/", ".")
+
 def generate_yaml(image_file: str, mode: str):
     if mode not in ["offline", "online"]:
         print("参数错误，只能是 offline 或 online")
@@ -33,9 +42,8 @@ def generate_yaml(image_file: str, mode: str):
                 continue
 
             image = image.rstrip("&").strip()
-            source_image = image  # 左边始终是原镜像
+            source_image = image
 
-            # 生成右边的镜像
             if mode == "offline":
                 name_part = image.split(":")[0]
                 if "/" not in name_part:
@@ -43,19 +51,14 @@ def generate_yaml(image_file: str, mode: str):
                 else:
                     target_image = f"dockerhub.kubekey.local/{image}"
             else:  # online
-                if "/" in image:
-                    name_mod = image.replace("/", ".", 1)  # 只替换第一个 /
-                else:
-                    name_mod = image
+                name_mod = convert_image_for_online(image)
                 target_image = f"registry.cn-shenzhen.aliyuncs.com/os_mirror/{name_mod}"
 
-            # 分类
             if source_image.startswith("ccr.ccs.tencentyun.com"):
                 tencent_images[source_image] = target_image
             else:
                 other_images[source_image] = target_image
 
-    # 写 YAML 文件
     with open(output_dir / "tencent.yaml", "w", encoding="utf-8") as f:
         yaml.dump(tencent_images, f, sort_keys=False)
     with open(output_dir / "basic.yaml", "w", encoding="utf-8") as f:

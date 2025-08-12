@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Only need to sync images that changed in current commit
+# Only need to sync images that changed in current commit ！！！
 #FILES=$(find online -type f)
 
 #for FILE in $FILES

@@ -22,9 +22,14 @@ jobs:
         wget https://github.com/AliyunContainerService/image-syncer/releases/download/${IMAGE_SYNCER_VERSION}/image-syncer-${IMAGE_SYNCER_VERSION}-linux-amd64.tar.gz
         tar -zxf image-syncer-${IMAGE_SYNCER_VERSION}-linux-amd64.tar.gz
         
+    - name: Create auth.yaml from secrets
+      run: |
+        cat <<'EOF' > ./auth.yaml
+        ${{ secrets.AUTH }}
+        EOF
         
     - name: Synchronization
       env:
         AUTH: ${{ secrets.AUTH }}
       if: github.event_name == 'push'
-      run: echo "$AUTH" > ./auth.yaml && .github/workflows/sync.sh
+      run: .github/workflows/sync.sh

@@ -24,9 +24,7 @@ jobs:
         
     - name: Create auth.yaml from secrets
       run: |
-        cat <<'EOF' > ./auth.yaml
-        ${{ secrets.AUTH }}
-        EOF
+        printf "%s" "${{ secrets.AUTH }}" > auth.yaml
         
     - name: Synchronization
       env:

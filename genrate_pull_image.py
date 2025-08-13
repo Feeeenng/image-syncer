@@ -2,14 +2,38 @@ import yaml
 import sys
 from pathlib import Path
 
-def convert_image_for_online(image: str) -> str:
-    """将镜像名中的 / 转为 .，但保留 :tag"""
+
+online_registry = "registry.cn-shenzhen.aliyuncs.com/os_mirror"
+# online_registry = "ccr.ccs.tencentyun.com/os_mirror"
+
+offline_registry = "dockerhub.kubekey.local"
+
+
+def convert_for_online(image: str) -> str:
+    """将镜像转为 online 模式的 os_mirror 格式"""
+    if image.startswith("ccr.ccs.tencentyun.com/"):
+        image = image[len("ccr.ccs.tencentyun.com/"):]
+        if "/" in image:
+            image = image.split("/", 1)[1]
+
     if ":" in image:
         repo, tag = image.rsplit(":", 1)
         repo = repo.replace("/", ".")
         return f"{repo}:{tag}"
     else:
         return image.replace("/", ".")
+
+def convert_for_offline(image: str) -> str:
+    """将镜像转为 offline 模式的 dockerhub.kubekey.local 格式"""
+    if image.startswith("ccr.ccs.tencentyun.com/"):
+        image = image[len("ccr.ccs.tencentyun.com/"):]
+        return f"{offline_registry}/{image}"
+    else:
+        name_part = image.split(":")[0]
+        if "/" not in name_part:
+            return f"{offline_registry}/library/{image}"
+        else:
+            return f"{offline_registry}/{image}"
 
 def generate_yaml(image_file: str, mode: str):
     if mode not in ["offline", "online"]:
@@ -45,14 +69,9 @@ def generate_yaml(image_file: str, mode: str):
             source_image = image
 
             if mode == "offline":
-                name_part = image.split(":")[0]
-                if "/" not in name_part:
-                    target_image = f"dockerhub.kubekey.local/library/{image}"
-                else:
-                    target_image = f"dockerhub.kubekey.local/{image}"
-            else:  # online
-                name_mod = convert_image_for_online(image)
-                target_image = f"registry.cn-shenzhen.aliyuncs.com/os_mirror/{name_mod}"
+                target_image = convert_for_offline(image)
+            else:
+                target_image = f"{online_registry}/{convert_for_online(image)}"
 
             if source_image.startswith("ccr.ccs.tencentyun.com"):
                 tencent_images[source_image] = target_image
@@ -60,9 +79,9 @@ def generate_yaml(image_file: str, mode: str):
                 other_images[source_image] = target_image
 
     with open(output_dir / "tencent.yaml", "w", encoding="utf-8") as f:
-        yaml.dump(tencent_images, f, sort_keys=False)
+        yaml.dump(tencent_images, f, sort_keys=False, allow_unicode=True)
     with open(output_dir / "basic.yaml", "w", encoding="utf-8") as f:
-        yaml.dump(other_images, f, sort_keys=False)
+        yaml.dump(other_images, f, sort_keys=False, allow_unicode=True)
 
     print(f"✅ {mode} 模式 YAML 文件已生成到 {output_dir}/")
 

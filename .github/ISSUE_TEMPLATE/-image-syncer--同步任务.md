@@ -9,7 +9,7 @@ assignees: Feeeenng
 
 {
   "todo":"os/arch is amd64 arm64. more arch please to hub  tags.",
-  "platform":"arch",
+  "platform":"amd64",
   "registries":[{
       "repository":"tag"
   }]
